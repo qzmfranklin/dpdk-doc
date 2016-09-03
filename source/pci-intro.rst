@@ -15,7 +15,7 @@ Resources
 
     - `Kernel archive
       <https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-pci>`_ on
-      :file:`/sys/bus/pci/...`.
+      :code:`/sys/bus/pci/...`.
 
 Basic Concepts
 --------------
@@ -177,9 +177,9 @@ In exercise 1, the :code:`lspci` program was invoked without
 :code:`sudo`. That is because :code:`lspci` gets information from a globally
 readable psedudo file system, `sysfs
 <https://www.kernel.org/doc/Documentation/filesystems/sysfs.txt>`_. Each PCI
-funcion has its own subdirectory, :file:`/sys/bus/pci/<bus:dev.func>`. Please do
+funcion has its own subdirectory, :code:`/sys/bus/pci/<bus:dev.func>`. Please do
 the following:
-    #.  Go to the :file:`/sys/bus/pci/<bus:dev.func>` of the function you looked
+    #.  Go to the :code:`/sys/bus/pci/<bus:dev.func>` of the function you looked
         at in exercise 1.
     #.  Explore the directory. Find the configuration space of this function.
     #.  Confirm that the configuration space found here with the one dumped by
