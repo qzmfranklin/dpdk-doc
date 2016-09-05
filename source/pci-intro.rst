@@ -17,6 +17,7 @@ Resources
       <https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-pci>`_ on
       :code:`/sys/bus/pci/...`.
 
+
 Basic Concepts
 --------------
 
@@ -61,6 +62,12 @@ The PCI standard permits
 
 For simplicity, this doc will refer to PCI buses/devices/functions as
 buses/devices/functions when there is no ambiguity.
+
+An import observation is that a system of PCI buses, devices, and function make
+up a tree where the CPU is the root node, PCI buses and PCI-PCI bridges are the
+edges, and PCI devices/function are the end nodes. It is possible to iterate
+through all devices on the PCI system with a depth first traversal.
+
 
 Address Spaces
 --------------
@@ -127,13 +134,13 @@ The six *Base Address Registers*, or BARs are used to tell the kernel
     - the sizes of address spaces.
 
 
-Probing
--------
+Kernel Representation
+---------------------
 
-At boot time [subject to modification], PCI buses are recursively scanned for
-devices. Devices make their address spaces available to the kernel per the PCI
-standard [citation needed].
-
+At last, pleae remember that
+    - :code:`struct pci_dev` represents a PCI function in the kernel,
+    - :code:`struct pci_dev` is defined in `pci.h
+      <http://lxr.free-electrons.com/source/include/linux/pci.h>`_.
 
 Exercises
 ---------
@@ -170,6 +177,8 @@ On a Linux machine, do the following:
         :code:`1` to the BAR, then read its value, as described `here
         <http://wiki.osdev.org/PCI#Base_Address_Registers>`_.
 
+The goal of this exercise is to gain visibility into the configuration space.
+
 Exercise 2
 ~~~~~~~~~~
 
@@ -181,11 +190,23 @@ funcion has its own subdirectory, :code:`/sys/bus/pci/<bus:dev.func>`. Please do
 the following:
     #.  Go to the :code:`/sys/bus/pci/<bus:dev.func>` of the function you looked
         at in exercise 1.
-    #.  Explore the directory. Find the configuration space of this function.
-    #.  Confirm that the configuration space found here with the one dumped by
-        :code:`lspci -x` are indeed the same.
+    #.  Explore the directory. Use :code:`tree` to dump the tree.
+    #.  Find the configuration space of this function.
+    #.  Confirm that the configuration space found here is the same with the one
+        dumped by :code:`lspci -x`.
 
 Exercise 3
 ~~~~~~~~~~
 
 Repeat exercise 1 and 2 for a few different PCI functions.
+
+
+Exercise 4
+~~~~~~~~~~
+
+Look for :code:`struct pci_dev` in `pci.h
+<http://lxr.free-electrons.com/source/include/linux/pci.h>`_, read through the
+source code carefully. The goal is to get familiar with the kernel
+representation of a PCI device. Later, we will be talking about certain fields
+in the :code:`struct pci_dev`. You need to be comfortable looking at the source
+code.
