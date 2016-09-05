@@ -139,11 +139,31 @@ Kernel Representation
 
 At last, pleae remember that
     - :code:`struct pci_dev` represents a PCI function in the kernel,
-    - :code:`struct pci_dev` is defined in `pci.h
+    - The laste definition of :code:`struct pci_dev` is in `pci.h
       <http://lxr.free-electrons.com/source/include/linux/pci.h>`_.
+
+The beginning of :code:`struct pci_dev` looks like this:
+
+.. code-block:: c
+
+    struct list_head bus_list;      /* node in per-bus list */
+    struct pci_bus *bus;            /* bus this device is on */
+    struct pci_bus *subordinate;    /* bus this device bridges to */
+    void  *sysdata;                 /* hook for sys-specific extension */
+    struct proc_dir_entry *procent; /* device entry in /proc/bus/pci */
+    struct pci_slot *slot;          /* Physical slot this device is in */
+    unsigned int devfn;             /* encoded device & function index */
+    unsigned short vendor;
+    unsigned short device;
+    unsigned short subsystem_vendor;
+    unsigned short subsystem_device;
+    unsigned int class;             /* 3 bytes: (base,sub,prog-if) */
 
 Exercises
 ---------
+
+The goal of these exercises is to gain visibility into and familiality with the
+PCI configuration space.
 
 Exercise 1
 ~~~~~~~~~~
@@ -176,8 +196,6 @@ On a Linux machine, do the following:
     #.  How does the kernel know the size of each address space? Hint: Write all
         :code:`1` to the BAR, then read its value, as described `here
         <http://wiki.osdev.org/PCI#Base_Address_Registers>`_.
-
-The goal of this exercise is to gain visibility into the configuration space.
 
 Exercise 2
 ~~~~~~~~~~
